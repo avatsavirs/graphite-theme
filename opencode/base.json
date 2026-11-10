@@ -1,0 +1,169 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "base": {
+    "categorical": [
+      "blue",
+      "purple",
+      "green",
+      "orange",
+      "red"
+    ],
+    "text": {
+      "base": "$hue.neutral.100",
+      "muted": "$hue.neutral.300",
+      "action": {
+        "primary": {
+          "base": "$text.base",
+          "$disabled": "$text.muted",
+          "$focused": "$text.base",
+          "$selected": "$hue.interactive.400"
+        },
+        "secondary": {
+          "base": "$text.muted",
+          "$hovered": "$text.base",
+          "$focused": "$hue.interactive.200"
+        },
+        "destructive": {
+          "base": "$hue.neutral.900",
+          "$disabled": "$text.muted"
+        }
+      },
+      "formfield": {
+        "base": "$text.base",
+        "$hovered": "$hue.interactive.400",
+        "$focused": "$hue.interactive.400",
+        "$pressed": "$hue.interactive.400",
+        "$disabled": "$text.muted",
+        "$selected": "$hue.interactive.400"
+      },
+      "feedback": {
+        "error": {
+          "base": "$hue.red.400"
+        },
+        "warning": {
+          "base": "#f5a742"
+        },
+        "success": {
+          "base": "$hue.green.400"
+        },
+        "info": {
+          "base": "$hue.blue.400"
+        }
+      }
+    },
+    "background": {
+      "base": "$hue.neutral.900",
+      "raised": {
+        "base": "$hue.neutral.700",
+        "high": "$hue.neutral.600",
+        "max": "$hue.neutral.500"
+      },
+      "action": {
+        "primary": {
+          "base": "transparent",
+          "$hovered": "$hue.neutral.700",
+          "$focused": "$hue.interactive.600",
+          "$selected": "transparent"
+        },
+        "secondary": {
+          "base": "transparent"
+        },
+        "destructive": {
+          "base": "$hue.red.400"
+        }
+      },
+      "formfield": {
+        "base": "$background.base"
+      },
+      "feedback": {
+        "error": {
+          "base": "$background.base"
+        },
+        "warning": {
+          "base": "$background.base"
+        },
+        "success": {
+          "base": "$background.base"
+        },
+        "info": {
+          "base": "$background.base"
+        }
+      }
+    },
+    "border": {
+      "base": "#484848"
+    },
+    "scrollbar": {
+      "base": "#606060"
+    },
+    "diff": {
+      "text": {
+        "added": "#4fd6be",
+        "removed": "#c53b53",
+        "context": "#828bb8",
+        "hunkHeader": "#828bb8"
+      },
+      "background": {
+        "added": "#20303b",
+        "removed": "#37222c",
+        "context": "$hue.neutral.700"
+      },
+      "highlight": {
+        "added": "#b8db87",
+        "removed": "#e26a75"
+      },
+      "lineNumber": {
+        "text": "#8f8f8f",
+        "background": {
+          "added": "#1b2b34",
+          "removed": "#2d1f26"
+        }
+      }
+    },
+    "syntax": {
+      "comment": "#808080",
+      "keyword": "#9d7cd8",
+      "function": "#fab283",
+      "variable": "#e06c75",
+      "string": "#7fd88f",
+      "number": "#f5a742",
+      "type": "#e5c07b",
+      "operator": "#56b6c2",
+      "punctuation": "#eeeeee"
+    },
+    "markdown": {
+      "text": "#eeeeee",
+      "heading": "#9d7cd8",
+      "link": "#fab283",
+      "linkText": "#56b6c2",
+      "code": "#7fd88f",
+      "blockQuote": "#e5c07b",
+      "emphasis": "#e5c07b",
+      "strong": "#f5a742",
+      "horizontalRule": "#808080",
+      "listItem": "#fab283",
+      "listEnumeration": "#56b6c2",
+      "image": "#fab283",
+      "imageText": "#56b6c2",
+      "codeBlock": "#eeeeee"
+    },
+    "@dialog": {
+      "background": {
+        "base": "$background.raised.base",
+        "action": {
+          "primary": {
+            "$hovered": "$background.raised.max"
+          },
+          "secondary": {
+            "$hovered": "$background.raised.max"
+          }
+        }
+      },
+      "@footer": {
+        "text": {
+          "muted": "$hue.neutral.200"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "graphite-theme",
+  "version": "0.1.0",
+  "description": "Herdr's graphite theme for opencode, Neovim and kitty, generated from one palette.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "check": "bun scripts/build.ts --check"
+  }
+}
