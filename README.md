@@ -1,7 +1,7 @@
 # graphite-theme
 
 The **graphite** dark theme from [Herdr](https://github.com/herdrdev/herdr), shipped for
-opencode, Neovim and kitty. All three are generated from one palette (`palette.json`), so they
+opencode, Neovim, kitty and tmux. All three are generated from one palette (`palette.json`), so they
 stay identical.
 
 | Tool | Generated file | Installed via |
@@ -9,6 +9,7 @@ stay identical.
 | opencode | `dist/opencode/graphite.json` | `scripts/install-opencode.sh` |
 | Neovim | `dist/nvim/palette.lua` + `colors/` + `lua/graphite/` | plugin manager |
 | kitty | `dist/kitty/graphite.conf` | `include` in `kitty.conf` |
+| tmux | `dist/tmux/graphite.conf` | `source-file` in `tmux.conf` |
 
 `dist/` is committed so a plain clone works with no build step.
 
@@ -56,6 +57,18 @@ Without a plugin manager: add this folder to `runtimepath`, then `:colorscheme g
 # kitty.conf
 include /path/to/graphite-theme/dist/kitty/graphite.conf
 ```
+
+### tmux
+
+Needs tmux >= 3.0 and a Nerd/Powerline font (the status bar uses arrow glyphs).
+
+```conf
+# ~/.tmux.conf  (replace any existing theme block)
+source-file ~/Dev/playground/graphite-theme/dist/tmux/graphite.conf
+```
+
+Reload with `tmux source-file ~/.tmux.conf`. The theme only sets colors and the status bar;
+keybindings, `status-interval` and other options stay in your own config.
 
 ## Development
 

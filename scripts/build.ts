@@ -108,6 +108,64 @@ const outputs = new Map<string, string>()
   outputs.set("dist/kitty/graphite.conf", lines.join("\n"))
 }
 
+// ---------- tmux ----------
+{
+  // Powerline glyphs: arrows between status segments (U+E0B0 / U+E0B2), plus icons.
+  const R = "", L = "", SEP = "", HOST = "", PANE = ""
+  const lines = [
+    banner("#"),
+    "# Requires tmux >= 3.0 (variables) and a Powerline/Nerd Font for the glyphs.",
+    "",
+    `primary="${c.accent}"`,
+    `bg="${c.chrome}"`,
+    `bg_light="${c.raised}"`,
+    `bg_select="${c.selection}"`,
+    "",
+    `text_color_primary="${c.accent}"`,
+    `text_color_light="${c.fgTerm}"`,
+    `text_color_dark="${c.bg}"`,
+    "",
+    `active_pane_border_color="${c.accent}"`,
+    `inactive_pane_border_color="${c.selection}"`,
+    `active_pane_bg="${c.bg}"`,
+    `inactive_pane_bg="${c.canvas}"`,
+    `inactive_pane_text_color="${c.muted}"`,
+    "",
+    "# Copy mode",
+    `set -g mode-style "fg=\${text_color_light},bg=\${bg_select}"`,
+    "",
+    "# Messages",
+    `set -g message-style "fg=\${text_color_primary},bg=\${bg_light},fill=\${bg_light}"`,
+    `set -g message-command-style "fg=\${text_color_primary},bg=\${bg_light},fill=\${bg_light}"`,
+    "",
+    "# Panes",
+    `set -g pane-border-style "fg=\${inactive_pane_border_color}"`,
+    `set -g pane-active-border-style "fg=\${active_pane_border_color}"`,
+    `set-window-option -g window-style "fg=\${inactive_pane_text_color},bg=\${inactive_pane_bg}"`,
+    `set-window-option -g window-active-style "fg=\${text_color_light},bg=\${active_pane_bg}"`,
+    "",
+    "# Status bar",
+    `set -g status "on"`,
+    `set -g status-justify "left"`,
+    `set -g status-style "fg=\${text_color_primary},bg=\${bg}"`,
+    `set -g status-left-length "100"`,
+    `set -g status-right-length "100"`,
+    `set -g status-left-style NONE`,
+    `set -g status-right-style NONE`,
+    "",
+    `set -g status-left "#[fg=\${text_color_dark},bg=\${primary},bold] ${HOST} #S #{?#{!=:#{window_panes},1}, ${SEP} ${PANE} #P,} #[fg=\${primary},bg=\${bg},nobold,nounderscore,noitalics]${R}"`,
+    `set -g status-right "#[fg=\${bg_light},bg=\${bg},nobold,nounderscore,noitalics]${L}#[fg=\${text_color_primary},bg=\${bg_light}] %a %H:%M #[fg=\${primary},bg=\${bg_light},nobold,nounderscore,noitalics]${L}#[fg=\${text_color_dark},bg=\${primary},bold] %Y-%m-%d "`,
+    "",
+    `setw -g window-status-activity-style "underscore,fg=\${text_color_light},bg=\${bg}"`,
+    `setw -g window-status-style "NONE,fg=\${text_color_light},bg=\${bg}"`,
+    `setw -g window-status-separator ""`,
+    `setw -g window-status-format "#[fg=\${bg},bg=\${bg},nobold,nounderscore,noitalics]${R}#[default] #I:#W "`,
+    `setw -g window-status-current-format "#[fg=\${bg},bg=\${bg_light},nobold,nounderscore,noitalics]${R}#[fg=\${text_color_primary},bg=\${bg_light},bold] #I:#W #[fg=\${bg_light},bg=\${bg},nobold,nounderscore,noitalics]${R}"`,
+    "",
+  ]
+  outputs.set("dist/tmux/graphite.conf", lines.join("\n"))
+}
+
 // ---------- Neovim palette (loaded by lua/graphite/palette.lua) ----------
 {
   const entries: [string, string][] = [
