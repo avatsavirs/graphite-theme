@@ -48,6 +48,10 @@ lazy.nvim:
 }
 ```
 
+lualine: the plugin ships a matching theme, `require("lualine").setup({ options = { theme = "graphite" } })`.
+lualine reads its theme once at startup, so set this in your lualine config; running `:colorscheme`
+later won't change it.
+
 Without a plugin manager: add this folder to `runtimepath`, then `:colorscheme graphite`.
 `transparent = true` keeps the terminal's background (handy inside Herdr or kitty).
 
