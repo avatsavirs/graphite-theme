@@ -21,9 +21,9 @@ function M.get(p, cfg)
     -- Editor ---------------------------------------------------------------
     Normal = { fg = p.fg_term, bg = bg },
     NormalNC = { fg = p.fg_term, bg = bg },
-    NormalFloat = { fg = p.fg_term, bg = bg },
-    FloatBorder = { fg = p.border, bg = bg },
-    FloatTitle = { fg = p.accent, bg = bg, bold = true },
+    NormalFloat = { fg = p.fg_term, bg = p.bg_raised },
+    FloatBorder = { fg = p.input, bg = p.bg_raised },
+    FloatTitle = { fg = p.accent, bg = p.bg_raised, bold = true },
     Cursor = { fg = p.bg, bg = p.cursor },
     lCursor = { link = "Cursor" },
     TermCursor = { link = "Cursor" },
@@ -60,9 +60,9 @@ function M.get(p, cfg)
     QuickFixLine = { bg = p.selection },
 
     -- Menus / bars -----------------------------------------------------------
-    Pmenu = { fg = p.fg_term, bg = p.bg_popover },
+    Pmenu = { fg = p.fg_term, bg = p.bg_raised },
     PmenuSel = { fg = p.fg, bg = p.selection },
-    PmenuSbar = { bg = p.bg_raised },
+    PmenuSbar = { bg = p.input },
     PmenuThumb = { bg = p.dim },
     StatusLine = { fg = p.fg_term, bg = bg_chrome },
     StatusLineNC = { fg = p.dim, bg = bg_chrome },
@@ -209,13 +209,113 @@ function M.get(p, cfg)
     GitSignsAdd = { fg = p.green },
     GitSignsChange = { fg = p.blue },
     GitSignsDelete = { fg = p.red },
-    TelescopeNormal = { fg = p.fg_term, bg = p.bg_popover },
-    TelescopeBorder = { fg = p.border, bg = p.bg_popover },
+
+    -- telescope.nvim
+    TelescopeNormal = { fg = p.fg_term, bg = bg },
+    TelescopeBorder = { fg = p.input, bg = bg },
+    TelescopeTitle = { fg = p.accent, bg = bg, bold = true },
     TelescopeSelection = { fg = p.fg, bg = p.selection },
+    TelescopeSelectionCaret = { fg = p.accent, bg = p.selection },
+    TelescopeMultiSelection = { fg = p.magenta },
+    TelescopeMultiIcon = { fg = p.magenta },
     TelescopeMatching = { fg = p.accent, bold = true },
+    TelescopePromptNormal = { fg = p.fg, bg = bg },
+    TelescopePromptBorder = { fg = p.input, bg = bg },
+    TelescopePromptTitle = { fg = p.accent, bg = bg, bold = true },
     TelescopePromptPrefix = { fg = p.accent },
+    TelescopePromptCounter = { fg = p.dim },
+    TelescopeResultsNormal = { fg = p.fg_term, bg = bg },
+    TelescopeResultsBorder = { fg = p.input, bg = bg },
+    TelescopeResultsTitle = { fg = p.muted, bg = bg, bold = true },
+    TelescopeResultsComment = { fg = p.dim },
+    TelescopeResultsLineNr = { fg = p.dim },
+    TelescopeResultsDiffAdd = { fg = p.green },
+    TelescopeResultsDiffChange = { fg = p.blue },
+    TelescopeResultsDiffDelete = { fg = p.red },
+    TelescopeResultsDiffUntracked = { fg = p.dim },
+    TelescopePreviewNormal = { fg = p.fg_term, bg = bg },
+    TelescopePreviewBorder = { fg = p.input, bg = bg },
+    TelescopePreviewTitle = { fg = p.accent, bg = bg, bold = true },
+    TelescopePreviewLine = { bg = p.bg_selected },
+    TelescopePreviewMatch = { fg = p.bg, bg = p.yellow },
+    TelescopePreviewMessage = { fg = p.muted },
+    TelescopePreviewMessageFillchar = { fg = p.muted },
+
+    -- indent-blankline.nvim
     IblIndent = { fg = p.bg_raised },
+    IblWhitespace = { fg = p.bg_raised },
     IblScope = { fg = p.dim },
+
+    -- mason.nvim
+    MasonNormal = { fg = p.fg_term, bg = bg },
+    MasonHeader = { fg = p.bg, bg = p.accent, bold = true },
+    MasonHeaderSecondary = { fg = p.bg, bg = p.cyan, bold = true },
+    MasonHighlight = { fg = p.accent },
+    MasonHighlightBlock = { fg = p.bg, bg = p.accent },
+    MasonHighlightBlockBold = { fg = p.bg, bg = p.accent, bold = true },
+    MasonHighlightSecondary = { fg = p.yellow },
+    MasonHighlightBlockSecondary = { fg = p.bg, bg = p.yellow },
+    MasonHighlightBlockBoldSecondary = { fg = p.bg, bg = p.yellow, bold = true },
+    MasonMuted = { fg = p.dim },
+    MasonMutedBlock = { fg = p.muted, bg = p.bg_raised },
+    MasonMutedBlockBold = { fg = p.muted, bg = p.bg_raised, bold = true },
+    MasonError = { fg = p.blocked },
+    MasonWarning = { fg = p.working },
+    MasonHeading = { fg = p.fg, bold = true },
+    MasonLink = { fg = p.accent, underline = true },
+
+    -- lazygit.nvim (floating terminal)
+    LazyGitFloat = { fg = p.fg_term, bg = bg },
+    LazyGitBorder = { fg = p.input, bg = bg },
+
+    -- nvim-cmp
+    CmpItemAbbr = { fg = p.fg_term },
+    CmpItemAbbrDeprecated = { fg = p.dim, strikethrough = true },
+    CmpItemMenu = { fg = p.dim },
+    CmpGhostText = { fg = p.dim },
+    CmpItemKind = { fg = p.muted },
+
+    -- nvim-tree (file/folder/diagnostic groups; the window groups are further down)
+    NvimTreeFolderName = { fg = p.blue },
+    NvimTreeOpenedFolderName = { fg = p.blue, bold = true },
+    NvimTreeEmptyFolderName = { fg = p.dim },
+    NvimTreeSymlinkFolderName = { fg = p.cyan },
+    NvimTreeRootFolder = { fg = p.accent, bold = true },
+    NvimTreeFolderIcon = { fg = p.blue },
+    NvimTreeOpenedFolderIcon = { fg = p.blue },
+    NvimTreeClosedFolderIcon = { fg = p.blue },
+    NvimTreeFolderArrowOpen = { fg = p.dim },
+    NvimTreeFolderArrowClosed = { fg = p.dim },
+    NvimTreeFileIcon = { fg = p.fg_term },
+    NvimTreeSymlink = { fg = p.cyan },
+    NvimTreeSymlinkIcon = { fg = p.cyan },
+    NvimTreeExecFile = { fg = p.green, bold = true },
+    NvimTreeSpecialFile = { fg = p.yellow, underline = true },
+    NvimTreeImageFile = { fg = p.magenta },
+    NvimTreeOpenedFile = { fg = p.fg, bold = true },
+    NvimTreeOpenedHL = { fg = p.fg, bold = true },
+    NvimTreeModifiedFile = { fg = p.working },
+    NvimTreeModifiedIcon = { fg = p.working },
+    NvimTreeIndentMarker = { fg = p.bg_raised },
+    NvimTreeCursorLine = { bg = p.bg_hover },
+    NvimTreeBookmark = { fg = p.yellow },
+    NvimTreeBookmarkIcon = { fg = p.yellow },
+    NvimTreeCutHL = { fg = p.bg, bg = p.red },
+    NvimTreeCopiedHL = { fg = p.bg, bg = p.green },
+    NvimTreeLiveFilterPrefix = { fg = p.accent, bold = true },
+    NvimTreeLiveFilterValue = { fg = p.yellow, bold = true },
+    NvimTreeWindowPicker = { fg = p.bg, bg = p.accent, bold = true },
+    NvimTreeDiagnosticErrorIcon = { link = "DiagnosticError" },
+    NvimTreeDiagnosticWarnIcon = { link = "DiagnosticWarn" },
+    NvimTreeDiagnosticInfoIcon = { link = "DiagnosticInfo" },
+    NvimTreeDiagnosticHintIcon = { link = "DiagnosticHint" },
+    NvimTreeGitDirtyIcon = { fg = p.working },
+    NvimTreeGitNewIcon = { fg = p.green },
+    NvimTreeGitStagedIcon = { fg = p.green },
+    NvimTreeGitDeletedIcon = { fg = p.red },
+    NvimTreeGitRenamedIcon = { fg = p.cyan },
+    NvimTreeGitMergeIcon = { fg = p.magenta },
+    NvimTreeGitIgnoredIcon = { fg = p.dim },
     NeoTreeNormal = { fg = p.fg_term, bg = bg_chrome },
     NeoTreeNormalNC = { fg = p.fg_term, bg = bg_chrome },
     -- nvim-tree runs in a float here, floats share the editor background, so focus changes cannot change it
@@ -234,6 +334,60 @@ function M.get(p, cfg)
     CmpItemAbbrMatchFuzzy = { fg = p.accent, bold = true },
     WhichKeyFloat = { bg = p.bg_popover },
   }
+
+  -- nvim-cmp completion-item kinds (CmpItemKindFunction etc.) ---------------
+  local cmp_kinds = {
+    Text = p.fg_term,
+    Method = p.blue, Function = p.blue, Constructor = p.working,
+    Field = p.red, Variable = p.red, Property = p.red,
+    Class = p.working, Interface = p.working, Struct = p.working, Enum = p.working,
+    TypeParameter = p.working, Module = p.working,
+    Unit = p.yellow, Value = p.yellow, Constant = p.yellow, EnumMember = p.yellow,
+    Keyword = p.magenta, Operator = p.cyan, Event = p.yellow,
+    Snippet = p.green, Color = p.magenta, File = p.muted, Folder = p.blue, Reference = p.cyan,
+  }
+  for kind, color in pairs(cmp_kinds) do
+    hl["CmpItemKind" .. kind] = { fg = color }
+  end
+
+  -- barbar.nvim tabline -------------------------------------------------------
+  -- Current = focused buffer, Visible = shown in another window, Alternate = last
+  -- visited, Inactive = the rest. Per-state: text (fg + bg), plus the pieces drawn on top.
+  local barbar_states = {
+    Current = { fg = p.fg, bg = bg, bold = true, dim = p.muted },
+    Visible = { fg = p.fg_term, bg = bg, dim = p.dim },
+    Alternate = { fg = p.muted, bg = bg_chrome, dim = p.dim },
+    Inactive = { fg = p.muted, bg = bg_chrome, dim = p.dim },
+  }
+  for state, s in pairs(barbar_states) do
+    local base = { fg = s.fg, bg = s.bg, bold = s.bold }
+    local prefix = "Buffer" .. state
+    hl[prefix] = base
+    hl[prefix .. "Icon"] = { bg = s.bg }
+    hl[prefix .. "Index"] = { fg = s.dim, bg = s.bg }
+    hl[prefix .. "Number"] = { fg = s.dim, bg = s.bg }
+    hl[prefix .. "Mod"] = { fg = p.working, bg = s.bg }
+    hl[prefix .. "ModBtn"] = { fg = p.working, bg = s.bg }
+    hl[prefix .. "Sign"] = { fg = state == "Current" and p.accent or s.bg, bg = s.bg }
+    hl[prefix .. "SignRight"] = { fg = s.bg, bg = s.bg }
+    hl[prefix .. "Target"] = { fg = p.red, bg = s.bg, bold = true }
+    hl[prefix .. "Btn"] = { fg = s.dim, bg = s.bg }
+    hl[prefix .. "Pin"] = { fg = s.dim, bg = s.bg }
+    hl[prefix .. "PinBtn"] = { fg = s.dim, bg = s.bg }
+    hl[prefix .. "ERROR"] = { fg = p.blocked, bg = s.bg }
+    hl[prefix .. "WARN"] = { fg = p.working, bg = s.bg }
+    hl[prefix .. "INFO"] = { fg = p.done, bg = s.bg }
+    hl[prefix .. "HINT"] = { fg = p.cyan, bg = s.bg }
+    hl[prefix .. "ADDED"] = { fg = p.green, bg = s.bg }
+    hl[prefix .. "CHANGED"] = { fg = p.blue, bg = s.bg }
+    hl[prefix .. "DELETED"] = { fg = p.red, bg = s.bg }
+  end
+  hl.BufferTabpageFill = { bg = bg_chrome }
+  hl.BufferTabpages = { fg = p.accent, bg = bg_chrome, bold = true }
+  hl.BufferTabpagesSep = { fg = p.dim, bg = bg_chrome }
+  hl.BufferOffset = { fg = p.muted, bg = bg_chrome }
+  hl.BufferScrollArrow = { fg = p.accent, bg = bg_chrome }
+
   return hl
 end
 
