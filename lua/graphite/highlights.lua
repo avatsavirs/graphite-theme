@@ -1,6 +1,6 @@
 local M = {}
 
----@param p table  palette (see dist/nvim/palette.lua)
+---@param p table  palette (see lua/graphite/palette.lua)
 ---@param cfg graphite.Config
 function M.get(p, cfg)
   local bg = cfg.transparent and "NONE" or p.bg
@@ -56,6 +56,9 @@ function M.get(p, cfg)
     ModeMsg = { fg = p.fg, bold = true },
     WarningMsg = { fg = p.working },
     ErrorMsg = { fg = p.blocked },
+    healthSuccess = { fg = p.green },
+    healthWarning = { fg = p.working },
+    healthError = { fg = p.blocked },
     WildMenu = { bg = p.selection },
     QuickFixLine = { bg = p.selection },
 
@@ -134,7 +137,11 @@ function M.get(p, cfg)
     DiagnosticUnderlineWarn = { sp = p.working, undercurl = true },
     DiagnosticUnderlineInfo = { sp = p.done, undercurl = true },
     DiagnosticUnderlineHint = { sp = p.cyan, undercurl = true },
+    DiagnosticUnderlineOk = { sp = p.green, undercurl = true },
     DiagnosticUnnecessary = { fg = p.dim },
+    -- deprecated symbols (tsserver etc. tag these); strikethrough keeps the symbol's own color
+    DiagnosticDeprecated = { strikethrough = true },
+    ["@lsp.mod.deprecated"] = { link = "DiagnosticDeprecated" },
     SpellBad = { sp = p.blocked, undercurl = true },
     SpellCap = { sp = p.working, undercurl = true },
     SpellLocal = { sp = p.cyan, undercurl = true },
@@ -187,6 +194,12 @@ function M.get(p, cfg)
     ["@tag.attribute"] = { fg = p.yellow },
     ["@tag.delimiter"] = { fg = p.dim },
     ["@markup.heading"] = { fg = p.magenta, bold = true },
+    ["@markup.heading.1"] = { fg = p.accent, bold = true },
+    ["@markup.heading.2"] = { fg = p.magenta, bold = true },
+    ["@markup.heading.3"] = { fg = p.cyan, bold = true },
+    ["@markup.heading.4"] = { fg = p.green, bold = true },
+    ["@markup.heading.5"] = { fg = p.yellow, bold = true },
+    ["@markup.heading.6"] = { fg = p.muted, bold = true },
     ["@markup.strong"] = { bold = true },
     ["@markup.italic"] = { italic = true },
     ["@markup.strikethrough"] = { strikethrough = true },
