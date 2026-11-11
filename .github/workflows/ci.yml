@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# One run per ref; a newer push cancels the older run (but never cancels a build in progress on main).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+      - run: ./scripts/test
+
+  # Regenerates extras/ and lua/graphite/palette.lua from palette.json and commits the result,
+  # the same way folke/tokyonight.nvim keeps its extras/ up to date. Pushes made with the default
+  # GITHUB_TOKEN do not trigger another workflow run, so this cannot loop.
+  build:
+    name: Build generated files
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun run build
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(build): auto-generated build files"
+          file_pattern: extras lua/graphite/palette.lua
