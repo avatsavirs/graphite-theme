@@ -102,6 +102,15 @@ Running the build before pushing is optional. CI runs the smoke test on every PR
 `chore(build): auto-generated build files`, so `git pull` before your next push. Run
 `bun run build` locally to preview a palette change.
 
+## Releases
+
+Versions follow [semver](https://semver.org) and are cut by
+[release-please](https://github.com/googleapis/release-please) from
+[Conventional Commits](https://www.conventionalcommits.org). Use `feat:` for new features and
+`fix:` for fixes (`feat!:` or a `BREAKING CHANGE:` footer for breaking changes); `docs:`, `chore:`
+and the like don't trigger a release. Merging the release PR that release-please keeps open on
+`main` tags `vX.Y.Z` and updates `CHANGELOG.md`. Until 1.0, breaking changes bump the minor version.
+
 ## Palette
 
 `palette.json` was dumped from Herdr's `themes()` API (graphite preset). Background `#17191d`,
