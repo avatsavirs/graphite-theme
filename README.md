@@ -1,27 +1,27 @@
 # graphite-theme
 
 The **graphite** dark theme from [Herdr](https://github.com/herdrdev/herdr), shipped for
-opencode, Neovim, kitty, tmux and lazygit. All of them are generated from one palette (`palette.json`), so they
-stay identical.
+opencode, Neovim, kitty, tmux and lazygit. All are generated from one palette (`palette.json`), so they
+stay identical. Generated files are committed, so a plain clone works with no build step.
 
 | Tool | Generated file | Installed via |
 |------|----------------|---------------|
-| opencode | `extras/opencode/graphite.json` | `scripts/install-opencode.sh` |
-| Neovim | `colors/` + `lua/graphite/` (palette generated into `lua/graphite/palette.lua`) | plugin manager |
+| opencode | `extras/opencode/graphite.json` | symlink into `~/.config/opencode/themes/` |
+| Neovim | `colors/` + `lua/graphite/` | plugin manager |
 | kitty | `extras/kitty/graphite.conf` | `include` in `kitty.conf` |
 | tmux | `extras/tmux/graphite.conf` | `source-file` in `tmux.conf` |
 | lazygit | `extras/lazygit/graphite.yml` | merge `gui.theme` into `config.yml` |
-
-Generated files are committed, so a plain clone works with no build step.
 
 ## Install
 
 ### opencode
 
 ```sh
-./scripts/install-opencode.sh          # symlink into ~/.config/opencode/themes/
-./scripts/install-opencode.sh --copy   # standalone copy instead
+mkdir -p ~/.config/opencode/themes
+ln -s /path/to/graphite-theme/extras/opencode/graphite.json ~/.config/opencode/themes/graphite.json
 ```
+
+Use `cp` instead of `ln -s` for a standalone copy.
 
 Then pick **graphite** in opencode (`Ctrl+P` > Settings > Theme), or set it in `cli.json`:
 
@@ -30,7 +30,7 @@ Then pick **graphite** in opencode (`Ctrl+P` > Settings > Theme), or set it in `
 ```
 
 A symlink picks up rebuilds automatically; it breaks if you move or delete this repo.
-opencode 2.2.6 plugins can't register themes, so this is a file install, not a plugin.
+opencode plugins can't register themes, so this is a file install, not a plugin.
 
 ### Neovim
 
@@ -38,7 +38,7 @@ lazy.nvim:
 
 ```lua
 {
-  "OWNER/graphite-theme",   -- or dir = "~/Dev/playground/graphite-theme"
+  dir = "/path/to/graphite-theme",
   lazy = false,
   priority = 1000,
   opts = { transparent = false, italic_comments = true },
@@ -69,7 +69,7 @@ Needs tmux >= 3.0 and a Nerd/Powerline font (the status bar uses arrow glyphs).
 
 ```conf
 # ~/.tmux.conf  (replace any existing theme block)
-source-file ~/Dev/playground/graphite-theme/extras/tmux/graphite.conf
+source-file /path/to/graphite-theme/extras/tmux/graphite.conf
 ```
 
 Reload with `tmux source-file ~/.tmux.conf`. The theme only sets colors and the status bar;
@@ -85,6 +85,8 @@ If you use lazygit.nvim with `vim.g.lazygit_config_file_path`, lazygit inside Ne
 file, so the block has to go there too.
 
 ## Development
+
+Requires [bun](https://bun.sh).
 
 ```sh
 bun run build   # regenerate extras/ and lua/graphite/palette.lua from palette.json
@@ -105,7 +107,7 @@ want to preview a palette change in kitty, tmux or Neovim.
 ## Palette
 
 `palette.json` was dumped from Herdr's `themes()` API (graphite preset). Background `#17191d`,
-accent `#96b2d7`. Herdr is Apache-2.0; palette values are credited to it.
+accent `#96b2d7`. Herdr is Apache-2.0; palette values are credited to it (the generated kitty header carries its Apache-2.0 notice).
 
 ## License
 
