@@ -49,9 +49,8 @@ lazy.nvim:
 }
 ```
 
-lualine: the plugin ships a matching theme, `require("lualine").setup({ options = { theme = "graphite" } })`.
-lualine reads its theme once at startup, so set this in your lualine config; running `:colorscheme`
-later won't change it.
+lualine: a matching theme ships with the plugin. Set `options = { theme = "graphite" }` in your
+lualine setup; lualine reads it once at startup, so `:colorscheme` won't change it later.
 
 Without a plugin manager: add this folder to `runtimepath`, then `:colorscheme graphite`.
 `transparent = true` keeps the terminal's background (handy inside Herdr or kitty).
@@ -98,16 +97,16 @@ Edit `palette.json` or `scripts/build.ts` (and `opencode/base.json` for the open
 never the generated files: `extras/` and `lua/graphite/palette.lua`. Neovim highlight groups are
 hand-written in `lua/graphite/highlights.lua`.
 
-You don't have to run the build before pushing. CI runs the smoke test on every PR, and on every
-push to `main` it rebuilds the generated files and commits any changes as
-`chore(build): auto-generated build files` (the same approach as folke/tokyonight.nvim). Run
-`git pull` before your next push so you pick up that commit. Run `bun run build` locally when you
-want to preview a palette change in kitty, tmux or Neovim.
+Running the build before pushing is optional. CI runs the smoke test on every PR; on every push to
+`main` it rebuilds the generated files and commits any changes as
+`chore(build): auto-generated build files`, so `git pull` before your next push. Run
+`bun run build` locally to preview a palette change.
 
 ## Palette
 
 `palette.json` was dumped from Herdr's `themes()` API (graphite preset). Background `#17191d`,
-accent `#96b2d7`. Herdr is Apache-2.0; palette values are credited to it (the generated kitty header carries its Apache-2.0 notice).
+accent `#96b2d7`. Herdr is Apache-2.0; the palette values are credited to it, and the generated
+kitty header carries that notice.
 
 ## License
 
