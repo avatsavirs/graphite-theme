@@ -1,17 +1,18 @@
 # graphite-theme
 
 The **graphite** dark theme from [Herdr](https://github.com/herdrdev/herdr), shipped for
-opencode, Neovim, kitty and tmux. All three are generated from one palette (`palette.json`), so they
+opencode, Neovim, kitty, tmux and lazygit. All of them are generated from one palette (`palette.json`), so they
 stay identical.
 
 | Tool | Generated file | Installed via |
 |------|----------------|---------------|
-| opencode | `dist/opencode/graphite.json` | `scripts/install-opencode.sh` |
-| Neovim | `dist/nvim/palette.lua` + `colors/` + `lua/graphite/` | plugin manager |
-| kitty | `dist/kitty/graphite.conf` | `include` in `kitty.conf` |
-| tmux | `dist/tmux/graphite.conf` | `source-file` in `tmux.conf` |
+| opencode | `extras/opencode/graphite.json` | `scripts/install-opencode.sh` |
+| Neovim | `colors/` + `lua/graphite/` (palette generated into `lua/graphite/palette.lua`) | plugin manager |
+| kitty | `extras/kitty/graphite.conf` | `include` in `kitty.conf` |
+| tmux | `extras/tmux/graphite.conf` | `source-file` in `tmux.conf` |
+| lazygit | `extras/lazygit/graphite.yml` | merge `gui.theme` into `config.yml` |
 
-`dist/` is committed so a plain clone works with no build step.
+Generated files are committed, so a plain clone works with no build step.
 
 ## Install
 
@@ -59,7 +60,7 @@ Without a plugin manager: add this folder to `runtimepath`, then `:colorscheme g
 
 ```conf
 # kitty.conf
-include /path/to/graphite-theme/dist/kitty/graphite.conf
+include /path/to/graphite-theme/extras/kitty/graphite.conf
 ```
 
 ### tmux
@@ -68,22 +69,38 @@ Needs tmux >= 3.0 and a Nerd/Powerline font (the status bar uses arrow glyphs).
 
 ```conf
 # ~/.tmux.conf  (replace any existing theme block)
-source-file ~/Dev/playground/graphite-theme/dist/tmux/graphite.conf
+source-file ~/Dev/playground/graphite-theme/extras/tmux/graphite.conf
 ```
 
 Reload with `tmux source-file ~/.tmux.conf`. The theme only sets colors and the status bar;
 keybindings, `status-interval` and other options stay in your own config.
 
+### lazygit
+
+lazygit has no include mechanism, so copy the `gui.theme` block from `extras/lazygit/graphite.yml`
+into your lazygit `config.yml` (`lazygit --print-config-dir` shows where it lives), replacing any
+existing `gui.theme`.
+
+If you use lazygit.nvim with `vim.g.lazygit_config_file_path`, lazygit inside Neovim reads only that
+file, so the block has to go there too.
+
 ## Development
 
 ```sh
-bun run build   # regenerate dist/ from palette.json
-bun run check   # fail if dist/ is stale
+bun run build   # regenerate extras/ and lua/graphite/palette.lua from palette.json
+bun run check   # fail if the generated files are stale
+./scripts/test  # headless Neovim smoke test (needs nvim >= 0.10)
 ```
 
 Edit `palette.json` or `scripts/build.ts` (and `opencode/base.json` for the opencode token tree),
-never the files in `dist/`. Neovim highlight groups are hand-written in
-`lua/graphite/highlights.lua`.
+never the generated files: `extras/` and `lua/graphite/palette.lua`. Neovim highlight groups are
+hand-written in `lua/graphite/highlights.lua`.
+
+You don't have to run the build before pushing. CI runs the smoke test on every PR, and on every
+push to `main` it rebuilds the generated files and commits any changes as
+`chore(build): auto-generated build files` (the same approach as folke/tokyonight.nvim). Run
+`git pull` before your next push so you pick up that commit. Run `bun run build` locally when you
+want to preview a palette change in kitty, tmux or Neovim.
 
 ## Palette
 

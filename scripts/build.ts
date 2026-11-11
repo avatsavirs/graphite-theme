@@ -1,7 +1,8 @@
 #!/usr/bin/env bun
-// Generates every product's theme file from palette.json into dist/.
-// Usage: bun run build        (writes dist/)
-//        bun run build --check (fails if dist/ is out of date)
+// Generates every product's theme file from palette.json: extras/ for other apps, plus the
+// Neovim palette module lua/graphite/palette.lua.
+// Usage: bun run build        (writes the generated files)
+//        bun run build --check (fails if the generated files are out of date)
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
@@ -105,7 +106,7 @@ const outputs = new Map<string, string>()
     ...c.ansi.map((v, i) => `color${i}`.padEnd(24) + v),
     "",
   ]
-  outputs.set("dist/kitty/graphite.conf", lines.join("\n"))
+  outputs.set("extras/kitty/graphite.conf", lines.join("\n"))
 }
 
 // ---------- tmux ----------
@@ -163,10 +164,39 @@ const outputs = new Map<string, string>()
     `setw -g window-status-current-format "#[fg=\${bg},bg=\${bg_light},nobold,nounderscore,noitalics]${R}#[fg=\${text_color_primary},bg=\${bg_light},bold] #I:#W #[fg=\${bg_light},bg=\${bg},nobold,nounderscore,noitalics]${R}"`,
     "",
   ]
-  outputs.set("dist/tmux/graphite.conf", lines.join("\n"))
+  outputs.set("extras/tmux/graphite.conf", lines.join("\n"))
 }
 
-// ---------- Neovim palette (loaded by lua/graphite/palette.lua) ----------
+// ---------- lazygit ----------
+{
+  // Only the `gui.theme` block: merge it into your lazygit config (see README).
+  const col = (v: string, ...attrs: string[]) => [`"${v}"`, ...attrs.map((a) => `"${a}"`)]
+  const theme: [string, string[]][] = [
+    ["activeBorderColor", col(c.accent, "bold")],
+    ["inactiveBorderColor", col(c.dim)],
+    ["searchingActiveBorderColor", col(c.working, "bold")],
+    ["optionsTextColor", col(c.accent)],
+    ["selectedLineBgColor", col(c.selection)],
+    ["inactiveViewSelectedLineBgColor", col(c.raised)],
+    ["cherryPickedCommitFgColor", col(c.bg)],
+    ["cherryPickedCommitBgColor", col(magenta)],
+    ["markedBaseCommitFgColor", col(c.bg)],
+    ["markedBaseCommitBgColor", col(c.working)],
+    ["unstagedChangesColor", col(red)],
+    ["defaultFgColor", col(c.fgTerm)],
+  ]
+  const lines = [
+    banner("#"),
+    "# Merge this `gui.theme` block into your lazygit config.yml (see README).",
+    "gui:",
+    "  theme:",
+    ...theme.flatMap(([key, vals]) => [`    ${key}:`, ...vals.map((v) => `      - ${v}`)]),
+    "",
+  ]
+  outputs.set("extras/lazygit/graphite.yml", lines.join("\n"))
+}
+
+// ---------- Neovim palette (required as `graphite.palette`) ----------
 {
   const entries: [string, string][] = [
     ["bg", c.bg], ["bg_canvas", c.canvas], ["bg_chrome", c.chrome], ["bg_popover", c.popover],
@@ -191,7 +221,7 @@ const outputs = new Map<string, string>()
     "}",
     "",
   ]
-  outputs.set("dist/nvim/palette.lua", lua.join("\n"))
+  outputs.set("lua/graphite/palette.lua", lua.join("\n"))
 }
 
 // ---------- opencode ----------
@@ -245,7 +275,7 @@ const outputs = new Map<string, string>()
   }
 
   const theme = { $schema: base.$schema, base: b, dark: { hue } }
-  outputs.set("dist/opencode/graphite.json", JSON.stringify(theme, null, 2) + "\n")
+  outputs.set("extras/opencode/graphite.json", JSON.stringify(theme, null, 2) + "\n")
 }
 
 // ---------- write / check ----------
@@ -265,5 +295,5 @@ for (const [rel, content] of outputs) {
 }
 if (CHECK) {
   if (stale) process.exit(1)
-  console.log("dist/ is up to date")
+  console.log("generated files are up to date")
 }

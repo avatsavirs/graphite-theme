@@ -7,7 +7,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-src="$root/dist/opencode/graphite.json"
+src="$root/extras/opencode/graphite.json"
 dir="${OPENCODE_THEMES_DIR:-$HOME/.config/opencode/themes}"
 dest="$dir/graphite.json"
 mode=link force=0
@@ -21,7 +21,7 @@ for arg in "$@"; do
   esac
 done
 
-# dist/ is committed, but rebuild when bun is around so a fresh palette edit is picked up.
+# extras/ is committed, but rebuild when bun is around so a fresh palette edit is picked up.
 if command -v bun >/dev/null 2>&1; then
   (cd "$root" && bun scripts/build.ts >/dev/null)
 fi
